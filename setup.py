@@ -13,14 +13,14 @@ REQUIRES_PYTHON = ">=3.7.0"
 VERSION = "0.0.2"
 
 REQUIRED = [
-    "torch>=1.13.0",
-    "torchaudio>=0.13.0",
-    "torchvision>=0.14.0",
+    "torch>=2.7.0",
+    "torchaudio>=2.7.0",
+    "torchvision>=0.22.0",
     "tqdm",
     "pyyaml",
     "einops",
     "chardet",
-    "numpy<=1.23.5",
+    "numpy>=1.26.0,<3.0", # Updated for NumPy 2.x compatibility
     "soundfile",
     "librosa==0.9.2",
     "scipy",
@@ -29,7 +29,7 @@ REQUIRED = [
     "unidecode",
     "phonemizer",
     "torchlibrosa>=0.0.9",
-    "transformers",
+    "transformers", # Will pick up 4.41.2 from requirements.txt
     "wget",
     "progressbar",
     "ftfy",

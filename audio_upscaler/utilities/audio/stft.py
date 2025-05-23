@@ -66,7 +66,7 @@ class STFT(torch.nn.Module):
 
         forward_transform = F.conv1d(
             input_data,
-            torch.autograd.Variable(self.forward_basis, requires_grad=False),
+            self.forward_basis,
             stride=self.hop_length,
             padding=0,
         ).cpu()
@@ -76,7 +76,7 @@ class STFT(torch.nn.Module):
         imag_part = forward_transform[:, cutoff:, :]
 
         magnitude = torch.sqrt(real_part**2 + imag_part**2)
-        phase = torch.autograd.Variable(torch.atan2(imag_part.data, real_part.data))
+        phase = torch.atan2(imag_part.detach(), real_part.detach())
 
         return magnitude, phase
 
@@ -87,7 +87,7 @@ class STFT(torch.nn.Module):
 
         inverse_transform = F.conv_transpose1d(
             recombine_magnitude_phase,
-            torch.autograd.Variable(self.inverse_basis, requires_grad=False),
+            self.inverse_basis,
             stride=self.hop_length,
             padding=0,
         )
@@ -105,9 +105,7 @@ class STFT(torch.nn.Module):
             approx_nonzero_indices = torch.from_numpy(
                 np.where(window_sum > tiny(window_sum))[0]
             )
-            window_sum = torch.autograd.Variable(
-                torch.from_numpy(window_sum), requires_grad=False
-            )
+            window_sum = torch.from_numpy(window_sum)
             window_sum = window_sum
             inverse_transform[:, :, approx_nonzero_indices] /= window_sum[
                 approx_nonzero_indices
