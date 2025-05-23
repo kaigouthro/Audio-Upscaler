@@ -531,7 +531,7 @@ class CLAPAudioEmbeddingClassifierFreev2(nn.Module):
             power=2.0,
             norm=None,
             onesided=True,
-            n_mels=64,
+            n_mels=audio_cfg["mel_bins"],
             f_min=audio_cfg["fmin"],
             f_max=audio_cfg["fmax"],
         )
